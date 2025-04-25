@@ -1,8 +1,4 @@
-﻿##########################
-# SCRIPT ACL FONCTIONNEL #
-#########################
-
-param($Drive)
+﻿param($Drive)
 
 ########################
 # Modification des ACL #
@@ -292,12 +288,12 @@ log_min_duration_statement = 700"
 }
 
 if ($TotalMemGB -ge 12) {
-    # Convertit le contenu en lignes séparées
+    # Sépare en lignes
     $contenuLignes = $contenuFichier -split "`n"
 
-    # Écrit les lignes avec un encodage UTF-8 sans BOM et des fins de ligne LF
-    $contenuLignes | Out-File -FilePath $cheminFichier -Encoding utf8NoBOM -Force -NoNewline:$false
-
+    # Écrit avec encodage UTF8 sans BOM et lignes en LF
+    [System.IO.File]::WriteAllLines($cheminFichier, $contenuLignes, (New-Object System.Text.UTF8Encoding($false)))
+    
     Write-Host "AquiESTEBAN : Fichier postgresql_astree.conf créé avec succès !"
 }
 
@@ -309,7 +305,7 @@ if ($TotalMemGB -ge 12) {
 $cheminFichier = "${Drive}:\Astree\Program\PostgreSQL\16\data\postgresql.conf"
 $contenu = Get-Content -Path $cheminFichier
 $nouvelleLigne = "include = '../postgresql_astree.conf'"
-$ligneNumero = 805
+$ligneNumero = 812
 
 # Modifier la ligne spécifique
 $contenu[$ligneNumero] = $nouvelleLigne
@@ -317,4 +313,7 @@ $contenu | Set-Content -Path $cheminFichier
 
 Write-Host "AquiESTEBAN : Le document postgresql.conf a été modifié avec succès"
 
-Write-Host "AquiESTEBAN : /!\ N'oubliez pas de redémarrer PostgreSQL !!! /!\"
+# Redémarrer le service PostgreSQL
+Restart-Service -Name "postgresql-x64-16" -Force
+
+Write-Host "AquiESTEBAN : PostgreSQL a bien été redémarré"

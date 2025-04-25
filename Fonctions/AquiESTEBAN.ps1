@@ -92,6 +92,6 @@ pause
 
 Clear-Host
 
-Write-Host "AquiESTEBAN : Installation des services Aquiweb"
+Write-Host "AquiESTEBAN : Création des utilisateurs et de la BDD Aquiweb"
 
-.\Fonctions\Fonctions\99_PopUp.ps1 "$Drive"
+.\Fonctions\Fonctions\11_PostgreSQL.ps1 "$Drive" "$date" "$postgres"

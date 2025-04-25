@@ -10,15 +10,23 @@ $valeurVariable = "C:\Program Files\Java\jdk-21.0.5+11"
 
 Write-Host "AquiESTEBAN : Variable d'environnement système JAVA_HOME créée avec succès"
 
-# Ajout de la variable au PATH
-$NewPath = "%JAVA_HOME%\bin"
-[System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";" + $NewPath, [System.EnvironmentVariableTarget]::Machine)
+$javaBin = "%JAVA_HOME%\bin"
+
+# Lire le PATH système actuel
+$machinePath = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
+
+# Vérifie si le chemin est déjà présent
+if ($machinePath -notlike "*$javaBin*") {
+    $newMachinePath = "$machinePath;$javaBin"
+    [System.Environment]::SetEnvironmentVariable("Path", $newMachinePath, "Machine")
+    Write-Host "`n✅ %JAVA_HOME%\bin a été ajouté au PATH système."
+} else {
+    Write-Host "`nℹ️ %JAVA_HOME%\bin est déjà dans le PATH système."
+}
 
 Write-Host "AquiESTEBAN : JAVA_HOME ajouté au PATH"
 Write-Host "AquiESTEBAN : Java est bien installé"
 
-# Ajout PostgreSQL aux variables système
-$pgsqlPath = "C:\Program Files\PostgreSQL\16\bin"
-[System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";" + $pgsqlPath, [System.EnvironmentVariableTarget]::Machine)
+$env:PATH += ";C:\Program Files\PostgreSQL\16\bin"
 
-Write-Host "AquiESTEBAN : PostgreSQL ajouté au PATH"
+Write-Host "AquiESTEBAN : PostgreSQL ajouté au PATH pour la session locale"

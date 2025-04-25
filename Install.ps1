@@ -1,8 +1,4 @@
-﻿######################
-# SCRIPT FONCTIONNEL #
-######################
-
-# Permet de prendre en compte UTF-8
+﻿# Permet de prendre en compte UTF-8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 # Vérifie si le script est lancé en administrateur
@@ -18,12 +14,6 @@ $version = Get-Content -Path ".\Version.txt"
 
 # Permet de mettre un titre à la fenêtre de commande
 $host.UI.RawUI.WindowTitle = "AquiESTEBAN version $version"
-
-# Write-Host affiche du texte à l'écran
-Write-Host "AquiESTEBAN : La version de cet AquiESTEBAN est : $version"
-Write-Host "AquiESTEBAN : Veuillez vérifier que vous êtes sur la dernière version de l'installer avec la page Confluence 'AquiESTEBAN [AW6/AW7]"
-
-Pause
 
 # Explication rapide du code de la ligne 11 à la ligne 34 :
 # La version de powershell est récupérée dans la variable $PSMajorVersion
@@ -58,6 +48,10 @@ if (-not $principal.IsInRole($adminRole)) {
 }
 
 Write-Host "AquiESTEBAN : Le script est exécuté avec les droits administrateurs" -ForegroundColor Green
+
+# Write-Host affiche du texte à l'écran
+Write-Host "AquiESTEBAN : La version de cet AquiESTEBAN est : $version"
+Write-Host "AquiESTEBAN : Veuillez vérifier que vous êtes sur la dernière version de l'installer avec la page Confluence 'AquiESTEBAN [AW6/AW7]"
 
 Write-Host "AquiESTEBAN : Lancement de l'installer de la version 7 d'Aquiweb"
 
